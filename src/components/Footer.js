@@ -19,7 +19,7 @@ const Footer = () => {
                                     (866) 295-3322</Link>
                             </div>
                             <div className="ftr-link">
-                                <Link to="mailto:sales@brivity.com">sales@brivity.com</Link>
+                                <Link to="mailto:sales@brivity.com">sales@techshop.com</Link>
                             </div>
                             <div className="social-icons">
                                 <Link to=""><FaFacebookF /></Link>
