@@ -77,6 +77,12 @@ const Category = () => {
                                     : product.shortDescription}
                             </h3>
                             <p className="card-text">{product.categoryName}</p>
+                            <h3 className="card-title m-0">
+                                ${product.price}
+                            </h3>
+                            <h6 className="text-success mb-0 card-text">
+                                In Stock
+                            </h6>
                             <div className="card-btn-main">
                                 <button type='button' onClick={() => handleAddToCart(product)} className='card-btn-sub'>Add to cart</button>
                             </div>

@@ -108,8 +108,10 @@ const ProductDetailsClient = () => {
 
 
                     <h5 className="user-prod-right-title">Category : {product.categoryName}</h5>
-                    <h5 className="user-prod-right-title">Price : ${product.dbp}</h5>
-
+                    <h5 className="user-prod-right-title">Price : ${product.price}</h5>
+                    <h5 className="text-success p-0 card-text">
+                        In Stock
+                    </h5>
                     {/* <div className="quantity-prod">
                         <button><RiSubtractFill /></button>
                         <div className="quantity-num">
@@ -188,6 +190,12 @@ const ProductDetailsClient = () => {
                             <p className="card-text">
                                 {product.categoryName}
                             </p>
+                            <h3 className="card-title m-0">
+                                ${product.price}
+                            </h3>
+                            <h6 className="text-success mb-0 card-text">
+                                In Stock
+                            </h6>
                             <div className="card-btn-main">
                                 <button type='button' onClick={() => handleAddToCart(product)} className='card-btn-sub' >Add to cart</button>
                             </div>

@@ -112,7 +112,7 @@ const Products = () => {
                                         <td>{product.shortDescription}</td>
                                         <td>{product.categoryName}</td>
                                         <td>{product.subcategory}</td>
-                                        <td>{product.dbp}</td>
+                                        <td>{product.price}</td>
                                         <td>
                                             <img
                                                 style={{ height: "100px", width: "100px" }}

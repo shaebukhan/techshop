@@ -27,8 +27,15 @@ const UploadProducts = () => {
 
                 // Parse CSV data into JSON using PapaParse
                 const parsedData = Papa.parse(csvData, { header: true });
-                const jsonData = parsedData.data;
-                console.log(jsonData.slice(0, 2));
+                let jsonData = parsedData.data;
+
+                // Ensure field names are consistent by trimming whitespace
+                jsonData = jsonData.map((row) =>
+                    Object.fromEntries(
+                        Object.entries(row).map(([key, value]) => [key.trim(), value])
+                    )
+                );
+                console.log(jsonData.slice(0, 5));
 
             };
             reader.readAsText(selectedFile);
@@ -53,8 +60,17 @@ const UploadProducts = () => {
 
             // Parse CSV data into JSON using PapaParse
             const parsedData = Papa.parse(csvData, { header: true });
-            const jsonData = parsedData.data;
+            let jsonData = parsedData.data;
+
+            // Ensure field names are consistent by trimming whitespace
+            jsonData = jsonData.map((row) =>
+                Object.fromEntries(
+                    Object.entries(row).map(([key, value]) => [key.trim(), value])
+                )
+            );
+
             const prod = jsonData;
+
             // Create a FormData instance
             const formData = new FormData();
 
@@ -66,8 +82,7 @@ const UploadProducts = () => {
                 formData.append(`products[${index}][categoryname]`, product['CATEGORY NAME'] || "");
                 formData.append(`products[${index}][subcategory]`, product['SUBCATEGORY NAME'] || "");
                 formData.append(`products[${index}][warranty]`, product['WARRANTY'] || "");
-                formData.append(`products[${index}][dbp]`, product['DBP'] || "");
-                formData.append(`products[${index}][rrp]`, product['RRP'] || "");
+                formData.append(`products[${index}][price]`, product['PRICE'] || ""); // Correct field handling
                 formData.append(`products[${index}][image]`, product['IMAGE'] || "");
                 formData.append(`products[${index}][ldesc]`, product['LONG DESCRIPTION'] || "");
                 formData.append(`products[${index}][sdesc]`, product['SHORT DESCRIPTION'] || "");
@@ -103,6 +118,7 @@ const UploadProducts = () => {
 
         reader.readAsText(file);
     };
+
 
 
     return (
