@@ -85,14 +85,24 @@ const Recently = () => {
                         {allProducts.map((item) => (
                             <div key={item._id}>
                                 <div className="web-card">
-                                    <img
-                                        className="img-fluid"
-                                        src={item.image}
-                                        alt={`${item.shortDescription}`}
-                                    />
-                                    <h3 className="card-title pb-2">
+                                    <div className="d-flex justify-content-center">
+
+                                        <img
+                                            className="img-fluid p-2"
+                                            src={item.image}
+                                            alt={`${item.shortDescription}`}
+                                        />
+                                    </div>
+
+                                    <h3 className="card-title">
                                         {item.categoryName}
                                     </h3>
+                                    <h3 className="card-title">
+                                        ${item.price}
+                                    </h3>
+                                    <h6 className="text-success mb-0 card-text">
+                                        In Stock
+                                    </h6>
                                     <div className="card-btn-main">
                                         <Link to={`product-details/${item._id}`} className="card-btn-sub">VIEW MORE</Link>
                                     </div>

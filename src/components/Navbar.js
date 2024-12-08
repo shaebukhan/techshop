@@ -9,6 +9,16 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import SearchInput from "../form/SearchInput";
 import { useCart } from "../Context/CartContext";
+import DesktopComputers from "./category/DesktopComputers";
+import Notebooks from "./category/Notebooks";
+import Components from "./category/Components";
+import Gaming from "./category/Gaming";
+import Cases from "./category/Cases";
+import Cooling from "./category/Cooling";
+import Moniters from "./category/Moniters";
+import Peripherals from "./category/Peripherals";
+import Cables from "./category/Cables";
+import Network from "./category/Network";
 
 
 const Navbar = () => {
@@ -183,37 +193,126 @@ const Navbar = () => {
                         </ul>
                     )}
                 </div>
-
-                {randomCategories.map((category) => (
-                    <div
-                        className="nav-link-nhv dropdown-main"
-                        key={category}
-                        onMouseEnter={() => {
-                            handleMouseEnter(category);
-                            fetchCategoryProducts(category);
-                        }}
-                        onMouseLeave={handleMouseLeave}
-                    >
-                        {category} <IoIosArrowDown />
-                        {openDropdown === category && (
-                            <ul className="dropdown-menu-c">
-                                {loading ? (
-                                    <li>Loading...</li>
-                                ) : (
-                                    categoryProducts[category]?.map((product, index) => (
-                                        <li key={product._id}>
-                                            <Link to={`/product-details/${product._id}`}>
-                                                <img src={product.image} alt={product.shortDescription} className="img-fluid" />
-                                                {index + 1}.  {product.shortDescription}
-
-                                            </Link>
-                                        </li>
-                                    ))
-                                )}
-                            </ul>
-                        )}
-                    </div>
-                ))}
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Desktop Computers <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <DesktopComputers />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    NoteBooks <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Notebooks />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Components <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Components />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Gaming <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Gaming />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Cases & Modding <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Cases />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Cooling <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Cooling />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Moniters <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Moniters />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Peripherals <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Peripherals />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Cable & Accessories <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Cables />
+                        </ul>
+                    )}
+                </div>
+                <div
+                    className="nav-link-nhv dropdown-main"
+                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    Network Devices <IoIosArrowDown />
+                    {openDropdown === 'features' && (
+                        <ul className="dropdown-menu-c">
+                            <Network />
+                        </ul>
+                    )}
+                </div>
             </div>
         </>
     );

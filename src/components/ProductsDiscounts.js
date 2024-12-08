@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import data from "../data.json";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -63,28 +62,32 @@ const ProductsDiscounts = () => {
                 <h1 className="common-title my-3 text-center">Big Sale !!</h1>
                 <div className="dis-products-sub">
                     {allProducts.map((product, index) => {
-                        const rrp = product.rrp;
-                        const dbp = product.dbp;
-
-                        // Calculate the discount percentage
-                        const percentage = rrp && dbp ? ((rrp - dbp) / rrp * 100).toFixed(0) : 0;
 
                         return (
                             <Link to={`/product-details/${product._id}`} key={index} className="prod-card">
-                                <div className="discount-num">{percentage}%</div>
+                                {/* <div className="discount-num">{percentage}%</div> */}
                                 <img className='img-fluid' src={product.image} alt={product.shortDescription} />
                                 <div className="bg-white">
                                     <h3 className="card-title">
-                                        {product.shortDescription.length > 50
-                                            ? `${product.shortDescription.slice(0, 50)}...`
-                                            : product.shortDescription}
+                                        {product.shortDescription
+                                            ? product.shortDescription.length > 50
+                                                ? `${product.shortDescription.slice(0, 50)}...`
+                                                : product.shortDescription
+                                            : ""}
                                     </h3>
 
                                     <p className="card-text">
                                         {product.categoryName}
                                     </p>
+                                    <h3 className="card-title m-0">
+                                        ${product.price}
+                                    </h3>
+                                    <h6 className="text-success mb-0 card-text">
+                                        In Stock
+                                    </h6>
                                     <div className="card-btn-main">
                                         <button type='button' onClick={() => handleAddToCart(product)} className='card-btn-sub'>Add to cart</button>
+
                                     </div>
                                 </div>
                             </Link>
