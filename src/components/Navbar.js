@@ -85,9 +85,6 @@ const Navbar = () => {
         "Desktop Computers", "Notebooks", "Components", "Gaming", "Cases&Moding", "Cooling", "Moniters", "Peripherals", "Cable&Accessories", "Network Devices", "Specials"
     ];
 
-    const filteredCategories = categories.filter(
-        (category) => !randomCategories.includes(category)
-    );
 
     // Fetch products on hover for a specific category
     const fetchCategoryProducts = async (category) => {
@@ -185,7 +182,7 @@ const Navbar = () => {
                     All Categories <IoIosArrowDown />
                     {openDropdown === 'features' && (
                         <ul className="dropdown-menu-c">
-                            {filteredCategories.map((category, index) => (
+                            {categories.map((category, index) => (
                                 <li key={index}>
                                     <Link className="nav-link-nhv" to={`/category/${category}`}>{category}</Link>
                                 </li>
