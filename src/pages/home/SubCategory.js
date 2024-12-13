@@ -6,8 +6,8 @@ import Loader from '../../components/Loader';
 import Navbar from '../../components/Navbar';
 import { useCart } from '../../Context/CartContext';
 
-const Category = () => {
-    const { category } = useParams();
+const SubCategory = () => {
+    const { subcategory } = useParams();
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1); // Pagination state
@@ -19,11 +19,11 @@ const Category = () => {
             setLoading(true);
             try {
                 const { data } = await axios.get(
-                    `${process.env.REACT_APP_API}/api/v1/products/category-products/${category}`,
+                    `${process.env.REACT_APP_API}/api/v1/products/subcategory-products/${subcategory}`,
                     { params: { page, limit } }
                 );
                 if (data?.success) {
-                    setProducts(data.relatedProducts);
+                    setProducts(data.subcategoryproducts);
                     setTotalPages(data.totalPages);
                 } else {
                     toast.error('Failed to fetch products');
@@ -37,7 +37,7 @@ const Category = () => {
         };
 
         fetchProductData();
-    }, [category, page]);
+    }, [subcategory, page]);
 
     // Function to handle page change
     const handlePageChange = (newPage) => {
@@ -65,7 +65,7 @@ const Category = () => {
             <Navbar />
             {loading && <Loader />}
             <div className="mt-top"></div>
-            <h3 className="category-title">Category {category}</h3>
+            <h3 className="category-title">Sub Category {subcategory}</h3>
             <div className="dis-products-sub">
                 {products?.length === 0 ? (
                     <div className="no-products-found">
@@ -95,6 +95,7 @@ const Category = () => {
                         </Link>
                     ))
                 )}
+
             </div>
             <div className="pagination">
                 <button
@@ -117,4 +118,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default SubCategory;

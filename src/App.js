@@ -22,7 +22,8 @@ import Orders from "./pages/home/Orders";
 import AllProducts from "./pages/home/AllProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import OrderDetails from "./pages/admin/OrderDetails";
-import SquarePayment from "./pages/user/SquarePayment";
+import MyPaymentForm from "./pages/user/MyPaymentForm";
+import SubCategory from "./pages/home/SubCategory";
 const App = () => {
   return (
     <>
@@ -33,7 +34,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/order/:id" element={<Orders />} />
         <Route path="/products" element={<AllProducts />} />
-        <Route path="/pay" element={<SquarePayment />} />
+        <Route path="/pay" element={<MyPaymentForm />} />
 
         {/* Auth routes */}
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
@@ -64,6 +65,7 @@ const App = () => {
         {/* public Routes */}
         <Route path="/product-details/:id" element={<ProductDetailsClient />} />
         <Route path="/category/:category" element={<Category />} />
+        <Route path="/subcategory/:subcategory" element={<SubCategory />} />
         {/* Catch-all route for 404 pages */}
         <Route path="*" element={<NotFound />} />
       </Routes>

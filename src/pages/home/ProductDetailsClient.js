@@ -105,7 +105,9 @@ const ProductDetailsClient = () => {
                 <div className="user-prod-right">
                     <h5 className="user-prod-right-title">{product.shortDescription}</h5>
                     {/* <p className='user-prod-right-text'>{product.longDescription}</p> */}
-
+                    <p>
+                        {product._id}
+                    </p>
 
                     <h5 className="user-prod-right-title">Category : {product.categoryName}</h5>
                     <h5 className="user-prod-right-title">Price : ${product.price}</h5>

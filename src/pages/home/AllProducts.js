@@ -67,22 +67,34 @@ const AllProducts = () => {
             <div className="mt-top"></div>
             <h3 className="category-title">All Products</h3>
             <div className="dis-products-sub">
-                {products.map((product) => (
-                    <Link to={`/product-details/${product._id}`} key={product._id} className="prod-card">
-                        <img className="img-fluid" src={product.image} alt="product" />
-                        <div className="bg-white">
-                            <h3 className="card-title">
-                                {product.shortDescription.length > 50
-                                    ? `${product.shortDescription.slice(0, 50)}...`
-                                    : product.shortDescription}
-                            </h3>
-                            <p className="card-text">{product.categoryName}</p>
-                            <div className="card-btn-main">
-                                <button type='button' onClick={() => handleAddToCart(product)} className='card-btn-sub'>Add to cart</button>
+                {products?.length === 0 ? (
+                    <div className="no-products-found">
+                        <h3 className="category-title">No products found</h3>
+                    </div>
+                ) : (
+                    products?.map((product) => (
+                        <Link to={`/product-details/${product._id}`} key={product._id} className="prod-card">
+                            <img className="img-fluid" src={product.image} alt="product" />
+                            <div className="bg-white">
+                                <h3 className="card-title">
+                                    {product.shortDescription.length > 50
+                                        ? `${product.shortDescription.slice(0, 50)}...`
+                                        : product.shortDescription}
+                                </h3>
+                                <p className="card-text">{product.categoryName}</p>
+                                <h3 className="card-title m-0">
+                                    ${product.price}
+                                </h3>
+                                <h6 className="text-success mb-0 card-text">
+                                    In Stock
+                                </h6>
+                                <div className="card-btn-main">
+                                    <button type='button' onClick={() => handleAddToCart(product)} className='card-btn-sub'>Add to cart</button>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                ))}
+                        </Link>
+                    ))
+                )}
             </div>
             <div className="pagination">
                 <button

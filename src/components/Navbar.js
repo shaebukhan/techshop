@@ -9,17 +9,11 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import SearchInput from "../form/SearchInput";
 import { useCart } from "../Context/CartContext";
-import DesktopComputers from "./category/DesktopComputers";
-import Notebooks from "./category/Notebooks";
 import Components from "./category/Components";
 import Gaming from "./category/Gaming";
-import Cases from "./category/Cases";
-import Cooling from "./category/Cooling";
-import Moniters from "./category/Moniters";
 import Peripherals from "./category/Peripherals";
 import Cables from "./category/Cables";
-import Network from "./category/Network";
-
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -29,7 +23,7 @@ const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [categoryProducts, setCategoryProducts] = useState([]);
+    const [subCategories, setSubCategories] = useState({});
     const { cart } = useCart();
     const openMenu = () => setIsMenuOpen(true);
     const openCategory = () => setIsCategoryMenuOpen(true);
@@ -39,6 +33,8 @@ const Navbar = () => {
 
     const handleMouseEnter = (menu) => setOpenDropdown(menu);
     const handleMouseLeave = () => setOpenDropdown(null);
+
+
 
     // Logout function
     const handleLogout = async () => {
@@ -64,7 +60,7 @@ const Navbar = () => {
 
     // Fetch categories
     useEffect(() => {
-        const fetchProductData = async () => {
+        const fetchCategories = async () => {
             try {
                 const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/products/categories`);
                 if (data?.success) {
@@ -74,40 +70,42 @@ const Navbar = () => {
                 }
             } catch (error) {
                 console.error(error);
-                toast.error('Error fetching products');
+
             }
         };
-        fetchProductData();
+        fetchCategories();
     }, []);
 
-
-    const randomCategories = [
-        "Desktop Computers", "Notebooks", "Components", "Gaming", "Cases&Moding", "Cooling", "Moniters", "Peripherals", "Cable&Accessories", "Network Devices", "Specials"
-    ];
-
-
-    // Fetch products on hover for a specific category
-    const fetchCategoryProducts = async (category) => {
-        if (categoryProducts[category]) return;  // Skip fetch if already loaded
-
+    const fetchSubCategories = async (category) => {
+        setLoading(true);
         try {
-            setLoading(true);
-            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/products/category-products/${category}`, { params: { limit: 10 } });
-            if (data?.success) {
-                setCategoryProducts((prev) => ({
-                    ...prev,
-                    [category]: data.relatedProducts,
-                }));
-            } else {
-
-            }
+            const { data } = await axios.get(
+                `${process.env.REACT_APP_API}/api/v1/products/subcategories/${category}`,
+                { params: { limit: 20 } }
+            );
+            setSubCategories(data?.success ? data.subCategories : []);
         } catch (error) {
-            console.error(error);
-            toast.error('Error fetching products');
+            console.error(`Error fetching subcategories for ${category}:`, error);
         } finally {
             setLoading(false);
         }
     };
+
+
+    const randomCategories = [
+        { label: "Desktop Computers", value: "Desktop Computers", search: "Desktop Computers" },
+        { label: "Notebooks", value: "notebooks", search: "Notebooks" },
+        // { label: "Components", value: "components", search: "" },
+        // { label: "Gaming", value: "gaming", search: "" },
+        { label: "Cases & Moding", value: "cases_moding", search: "Cases & Accessories" },
+        { label: "Cooling", value: "cooling", search: "Fan & Cooling Products" },
+        { label: "Monitors", value: "monitors", search: "Monitors" },
+        // { label: "Peripherals", value: "peripherals", search: "" },
+        { label: "Cable & Accessories", value: "cable_accessories", search: "Notebook Accessories" },
+        { label: "Network Devices", value: "network_devices", search: "Network - Consumer" },
+
+    ];
+
 
     return (
         <>
@@ -176,11 +174,11 @@ const Navbar = () => {
                 </button>
                 <div
                     className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseEnter={() => handleMouseEnter('allcategories')}
                     onMouseLeave={handleMouseLeave}
                 >
                     All Categories <IoIosArrowDown />
-                    {openDropdown === 'features' && (
+                    {openDropdown === 'allcategories' && (
                         <ul className="dropdown-menu-c">
                             {categories.map((category, index) => (
                                 <li key={index}>
@@ -190,37 +188,44 @@ const Navbar = () => {
                         </ul>
                     )}
                 </div>
+
+                {randomCategories.map((category) => (
+                    <Link to={`/category/${category.search}`}
+                        key={category.value}
+                        className="nav-link-nhv dropdown-main"
+                        onMouseEnter={() => {
+                            handleMouseEnter(category.value);
+                            fetchSubCategories(category.search);
+                        }}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        {category.label} <IoIosArrowDown />
+                        {openDropdown === category.value && (
+                            <ul className="dropdown-menu-c">
+                                {loading ? (
+                                    <li>Loading...</li>
+                                ) : subCategories.length > 0 ? (
+                                    subCategories.map((subCategory, index) => (
+                                        <Link to={`/subcategory/${subCategory}`} key={index} className="notebook-link">
+                                            <div className="notebook-icon"><FaLongArrowAltRight /></div>
+                                            <div className="sub-cat">{subCategory}</div>
+                                        </Link>
+                                    ))
+                                ) : (
+                                    <li>No subcategories found</li>
+                                )}
+                            </ul>
+
+                        )}
+                    </Link>
+                ))}
                 <div
                     className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Desktop Computers <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <DesktopComputers />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    NoteBooks <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Notebooks />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseEnter={() => handleMouseEnter('components')}
                     onMouseLeave={handleMouseLeave}
                 >
                     Components <IoIosArrowDown />
-                    {openDropdown === 'features' && (
+                    {openDropdown === 'components' && (
                         <ul className="dropdown-menu-c">
                             <Components />
                         </ul>
@@ -228,11 +233,11 @@ const Navbar = () => {
                 </div>
                 <div
                     className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseEnter={() => handleMouseEnter('Gaming')}
                     onMouseLeave={handleMouseLeave}
                 >
                     Gaming <IoIosArrowDown />
-                    {openDropdown === 'features' && (
+                    {openDropdown === 'Gaming' && (
                         <ul className="dropdown-menu-c">
                             <Gaming />
                         </ul>
@@ -240,73 +245,13 @@ const Navbar = () => {
                 </div>
                 <div
                     className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Cases & Modding <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Cases />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Cooling <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Cooling />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Moniters <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Moniters />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
+                    onMouseEnter={() => handleMouseEnter('Peripherals')}
                     onMouseLeave={handleMouseLeave}
                 >
                     Peripherals <IoIosArrowDown />
-                    {openDropdown === 'features' && (
+                    {openDropdown === 'Peripherals' && (
                         <ul className="dropdown-menu-c">
                             <Peripherals />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Cable & Accessories <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Cables />
-                        </ul>
-                    )}
-                </div>
-                <div
-                    className="nav-link-nhv dropdown-main"
-                    onMouseEnter={() => handleMouseEnter('features')}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    Network Devices <IoIosArrowDown />
-                    {openDropdown === 'features' && (
-                        <ul className="dropdown-menu-c">
-                            <Network />
                         </ul>
                     )}
                 </div>
